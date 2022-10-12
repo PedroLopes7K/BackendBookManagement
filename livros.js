@@ -18,6 +18,7 @@ router.get('/', async (req, res) => {
 // Método post é usado para inclusão
 router.post('/', async (req, res) => {
   // faz a desestruturação dos dados recebidos no corpo da requisição
+  console.log(req.body)
   const { titulo, autor, ano, preco, foto } = req.body
 
   // se algum dos campos não foi passado, irá enviar uma mensagem de erro e retornar
