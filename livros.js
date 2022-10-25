@@ -14,6 +14,17 @@ router.get('/', async (req, res) => {
     res.status(400).json({ msg: error.message })
   }
 })
+// metodo get para consulta livro especifico
+router.get('/unico/:id', async (req, res) => {
+  console.log('chegando na rota')
+  try {
+    const livro = await dbKnex('livros').where('id', req.params.id)
+    console.log(livro)
+    res.status(200).json(livro)
+  } catch (error) {
+    res.status(400).json({ msg: error.message })
+  }
+})
 
 // Método post é usado para inclusão
 router.post('/', async (req, res) => {
@@ -48,10 +59,10 @@ router.post('/', async (req, res) => {
 // Método put é usado para alteração. id indica o registro a ser alterado
 router.put('/:id', async (req, res) => {
   const id = req.params.id // ou const { id } = req.params
-  const { preco } = req.body // campo a ser alterado
+  // const { preco } = req.body // campo a ser alterado
   try {
     // altera o campo preco, no registro cujo id coincidir com o parâmetro passado
-    await dbKnex('livros').update({ preco }).where('id', id) // ou .where({ id })
+    await dbKnex('livros').update(req.body).where('id', id) // ou .where({ id })
     res.status(200).json() // statusCode indica Ok
   } catch (error) {
     res.status(400).json({ msg: error.message }) // retorna status de erro e msg
