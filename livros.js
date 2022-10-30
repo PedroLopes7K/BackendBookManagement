@@ -29,7 +29,6 @@ router.get('/unico/:id', async (req, res) => {
 // Método post é usado para inclusão
 router.post('/', async (req, res) => {
   // faz a desestruturação dos dados recebidos no corpo da requisição
-  console.log(req.body)
   const { titulo, autor, ano, preco, foto } = req.body
 
   // se algum dos campos não foi passado, irá enviar uma mensagem de erro e retornar
@@ -51,6 +50,7 @@ router.post('/', async (req, res) => {
       foto
     })
     res.status(201).json({ id: novo[0] }) // statusCode indica Create
+    // res.status(201).json(novo[0]) // statusCode indica Create
   } catch (error) {
     res.status(400).json({ msg: error.message }) // retorna status de erro e msg
   }
@@ -62,8 +62,8 @@ router.put('/:id', async (req, res) => {
   // const { preco } = req.body // campo a ser alterado
   try {
     // altera o campo preco, no registro cujo id coincidir com o parâmetro passado
-    await dbKnex('livros').update(req.body).where('id', id) // ou .where({ id })
-    res.status(200).json() // statusCode indica Ok
+    const newBook = await dbKnex('livros').update(req.body).where('id', id) // ou .where({ id })
+    res.status(201).json(newBook) // statusCode indica Ok
   } catch (error) {
     res.status(400).json({ msg: error.message }) // retorna status de erro e msg
   }
@@ -73,8 +73,8 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const { id } = req.params // id do registro a ser excluído
   try {
-    await dbKnex('livros').del().where({ id })
-    res.status(200).json() // statusCode indica Ok
+    const infoDelete = await dbKnex('livros').del().where({ id })
+    res.status(200).json(infoDelete) // statusCode indica Ok
   } catch (error) {
     res.status(400).json({ msg: error.message }) // retorna status de erro e msg
   }
