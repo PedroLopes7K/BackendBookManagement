@@ -16,10 +16,8 @@ router.get('/', async (req, res) => {
 })
 // metodo get para consulta livro especifico
 router.get('/unico/:id', async (req, res) => {
-  console.log('chegando na rota')
   try {
     const livro = await dbKnex('livros').where('id', req.params.id)
-    console.log(livro)
     res.status(200).json(livro)
   } catch (error) {
     res.status(400).json({ msg: error.message })
